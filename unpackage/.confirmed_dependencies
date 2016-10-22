@@ -1,0 +1,33 @@
+{
+  "index.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/bmob-min.js",
+      "fonts/mui.ttf",
+      "css/app.css",
+      "images/cbd.jpg",
+      "images/yuantiao.jpg",
+      "images/muwu.jpg",
+      "images/shuijiao.jpg",
+      "js/vue.js",
+      "js/vue.min.js",
+      "js/jquery-3.1.1.min.js"
+    ],
+    "refer": [
+      "webs/get_one.html"
+    ]
+  },
+  "webs/get_one.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/bmob-min.js",
+      "js/vue.min.js",
+      "js/vue.js",
+      "js/jquery-3.1.1.min.js"
+    ],
+    "refer": []
+  }
+}

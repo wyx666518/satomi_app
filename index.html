@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="js/vue.min.js"></script>
+		<script>
+			function clicked(o_id){
+				console.log(o_id);
+				mui.openWindow({
+				    url:'webs/get_one.html',
+				    id:'get_one.html',
+				    extras:{
+				        long_id:o_id
+				    }
+				});
+			}
+		</script>
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-bars mui-pull-left mui-plus-visible"></a>
+			<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>
+			<h1 class="mui-title">Satomi</h1>
+		</header>
+		<div class="mui-content" id="content" style="display: none;">
+			<ul class="mui-table-view" id="ul-list">
+				<li class="mui-table-view-cell mui-media" v-for="item in items" id="{{ item.id }}" onclick="clicked(this.id);">
+					<img class="mui-media-object mui-pull-left" src="images/shuijiao.jpg">
+					<div class="mui-media-body">
+						 {{ item.playerName }}
+						<p class='mui-ellipsis'>{{ item.score }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script src="js/bmob-min.js"></script>
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script>
+	mui.init();
+	Bmob.initialize("b8299cec71248fc6200afde3100137f6", "6cd5087058b5df08311752bae055e76e");
+	var GameScore = Bmob.Object.extend("GameScore");
+	var query = new Bmob.Query(GameScore);
+	var person = new Array();
+	// 查询所有数据
+	query.find({
+		success: function(results) {
+			console.log(results);
+			//alert("共查询到 " + results.length + " 条记录");
+			// 循环处理查询到的数据
+			for (var i = 0; i < results.length; i++) {
+				var object = results[i];
+				person[i] = {
+					id: object.id,
+					playerName: object.get('playerName'),
+					score: object.get('score')
+				};
+				//alert(object.id + ' - ' + object.get('playerName'));
+			}
+			console.log(person);
+			var vm = new Vue({
+				el: '#ul-list',
+				data: {
+					items: person
+				}
+			});
+			$("#content").show();
+		},
+		error: function(error) {
+			alert("查询失败: " + error.code + " " + error.message);
+		}
+	});
+	
+	
+	
+	
+	</script>
+</html>

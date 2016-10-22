@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="../js/vue.min.js"></script>
+		<link rel="stylesheet" href="../css/mui.min.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-bars mui-pull-left mui-plus-visible"></a>
+			<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>
+			<h1 class="mui-title">Satomi</h1>
+		</header>
+		<div class="mui-content" id="app" style="display: none;">
+	    	{{ score }} | {{ playerName }}
+		</div>
+		<div class="mui-content" id="loading">
+	    	加载中...
+		</div>
+	</body>
+	<script src="../js/jquery-3.1.1.min.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/bmob-min.js"></script>
+	<script>
+	function plusReady(){
+		var self = plus.webview.currentWebview();
+		var long_id = self.long_id;
+		Bmob.initialize("b8299cec71248fc6200afde3100137f6", "6cd5087058b5df08311752bae055e76e");
+		var GameScore = Bmob.Object.extend("GameScore");
+		var query = new Bmob.Query(GameScore);
+		//查询单条数据，第一个参数是这条数据的objectId值
+		query.get(long_id, {
+		  success: function(gameScore) {
+		    // 查询成功，调用get方法获取对应属性的值
+		    var score = gameScore.get("score");
+		    var playerName = gameScore.get("playerName");
+		    new Vue({
+			  el: '#app',
+			  data: {
+			    score: score,
+			    playerName: playerName
+			  }
+			})
+		    $("#app").show();
+		    $("#loading").hide();
+		  },
+		  error: function(object, error) {
+		    // 查询失败
+		  }
+		});
+	}
+	if(window.plus){
+		plusReady();
+	}else{
+		document.addEventListener('plusready',plusReady,false);
+	}
+	</script>
+</html>
